@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trino-deployment
+  labels:
+    app: trino
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: trino
+  template:
+    metadata:
+      labels:
+          app: trino
+    spec:
+      containers:
+      - name: trino
+        image: trinodb/trino:478
+        ports:
+        - containerPort: 8080
+

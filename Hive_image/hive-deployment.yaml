@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hive
+  labels:
+    app: hive
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hive
+  template:
+    metadata:
+      labels:
+        app: hive
+    spec:
+      containers:
+      - name: hive
+        image: my-hive:latest
+        command: ["/opt/hive/bin/hive", "--service", "metastore"]
+        ports:
+        - containerPort: 9083
+        envFrom:
+        - configMapRef:
+            name: hive-database-config
+        volumeMounts:
+        - name: hive-config-volume
+          mountPath: /opt/hive/conf/hive-site.xml
+          subPath: hive-site.xml
+      volumes:
+      - name: hive-config-volume
+        configMap:
+          name: hive-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hive
+  labels:
+    app: hive
+spec:
+  selector:
+    app: hive
+  ports:
+  - name: thrift
+    port: 9083
+    targetPort: 9083
+  type: ClusterIP

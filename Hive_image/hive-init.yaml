@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hive-init
+spec:
+  template:
+    spec:
+      containers:
+      - name: hive-init
+        image: my-hive:latest
+        command: ["/opt/hive/bin/schematool"]
+        args: ["-dbType", "postgres", "-initSchema"]
+        volumeMounts:
+        - name: hive-config-volume
+          mountPath: /opt/hive/conf/hive-site.xml
+          subPath: hive-site.xml
+      restartPolicy: OnFailure
+      volumes:
+      - name: hive-config-volume
+        configMap:
+          name: hive-config
+

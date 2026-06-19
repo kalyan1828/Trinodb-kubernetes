@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hive-database-config
+data:
+  DATABASE_DRIVER: org.postgresql.Driver
+  DATABASE_TYPE_JDBC: postgresql
+  DATABASE_HOST: postgres-service
+  DATABASE_PORT: "5432"
+  DATABASE_DB: mydb
+  DATABASE_USER: postgres
+  DATABASE_PASSWORD: "1234"
+  DB_DRIVER: postgres
+  IS_RESUME: "true"
