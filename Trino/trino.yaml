@@ -13,11 +13,34 @@ spec:
   template:
     metadata:
       labels:
-          app: trino
+        app: trino
     spec:
       containers:
       - name: trino
         image: trinodb/trino:478
         ports:
         - containerPort: 8080
+        volumeMounts:
+        - name: trino-config
+          mountPath: /etc/trino/jvm.config
+          subPath: jvm.config
+        - name: trino-config
+          mountPath: /etc/trino/config.properties
+          subPath: config.properties
+        - name: trino-config
+          mountPath: /etc/trino/log.properties
+          subPath: log.properties
+        - name: trino-config
+          mountPath: /etc/trino/password-authenticator.properties
+          subPath: password-authenticator.properties
+        - name: trino-config
+          mountPath: /etc/trino/password.db
+          subPath: password.db
+        - name: trino-config
+          mountPath: /etc/trino/catalog/delta.properties
+          subPath: delta.properties
+      volumes:
+      - name: trino-config
+        configMap:
+          name: trino-config
 

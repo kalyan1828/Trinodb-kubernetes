@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: trino-config
+data:
+  jvm.config: |
+    -server
+    -Xmx256M
+    -XX:+UseG1GC
+    -XX:G1HeapRegionSize=32M
+    -XX:+UseStringDeduplication
+  config.properties: |
+    coordinator=true
+    node-scheduler.include-coordinator=true
+    http-server.http.port=8080
+    internal-communication.shared-secret=trinoDB
+    spill-enabled=false
+    query.max-memory=256MB
+    query.max-memory-per-node=128MB
+    discovery.uri=http://trino:8080
+    plugin.dir=/usr/lib/trino/plugin
+  log.properties: |
+    io.trino=INFO
+    com.facebook.presto=INFO
+  delta.properties: |
+    connector.name=delta-lake
+    hive.metastore.uri=thrift://hive:9083
+    hive.metastore-cache-ttl=20m
