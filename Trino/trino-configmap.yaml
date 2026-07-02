@@ -5,7 +5,7 @@ metadata:
 data:
   jvm.config: |
     -server
-    -Xmx256M
+    -Xmx2G
     -XX:+UseG1GC
     -XX:G1HeapRegionSize=32M
     -XX:+UseStringDeduplication
@@ -14,9 +14,9 @@ data:
     node-scheduler.include-coordinator=true
     http-server.http.port=8080
     internal-communication.shared-secret=trinoDB
-    spill-enabled=false
-    query.max-memory=256MB
-    query.max-memory-per-node=128MB
+    spill-enabled=true
+    query.max-memory=2GB
+    query.max-memory-per-node=1GB
     discovery.uri=http://trino:8080
     plugin.dir=/usr/lib/trino/plugin
   log.properties: |
